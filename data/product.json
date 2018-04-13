@@ -1,0 +1,32 @@
+[
+  {
+    "id": 2,
+    "name": "Coco",
+    "price": 1250,
+    "tags": [
+      "fruta",
+      "comida"
+    ],
+    "dimensions": {
+      "length": 7,
+      "width": 12,
+      "height": 9.5
+    },
+    "warehouseLocation": {
+      "latitude": "buenaventura"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Primitivo",
+    "price": 2550,
+    "dimensions": {
+      "length": 3.1,
+      "width": 1,
+      "height": 1
+    },
+    "warehouseLocation": {
+      "latitude": "cali"
+    }
+  }
+]
