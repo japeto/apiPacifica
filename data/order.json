@@ -1,9 +1,65 @@
 {
   "orders": [
     {
-      "order_id": 1,
+      "order_id": 3,
       "order_number": "83883-9393-90",
       "customer_id": "1",
+      "name": "Alice Brown",
+      "sku": "54321",
+      "price": 199.95,
+      "shipTo": {
+        "name": "Bob Brown",
+        "address": "456 Oak Lane",
+        "city": "Pretendville",
+        "state": "HI",
+        "zip": "98999"
+      },
+      "billTo": {
+        "name": "Alice Brown",
+        "address": "456 Oak Lane",
+        "city": "Pretendville",
+        "state": "HI",
+        "zip": "98999"
+      },
+      "products": [
+        {
+          "product_id": 1,
+          "image_id": 3,
+          "quantity": 12
+        },
+        {
+          "product_id": 2,
+          "image_id": 2,
+          "quantity": 2
+        },
+        {
+          "product_id": 12,
+          "image_id": 12,
+          "quantity": 8
+        }
+      ]
+    },
+    {
+      "order_id": 4,
+      "order_number": "887783-22223-90",
+      "customer_id": "1",
+      "name": "Alice Brown",
+      "sku": "54321",
+      "price": 199.95,
+      "shipTo": {
+        "name": "Bob Brown",
+        "address": "456 Oak Lane",
+        "city": "Pretendville",
+        "state": "HI",
+        "zip": "98999"
+      },
+      "billTo": {
+        "name": "Alice Brown",
+        "address": "456 Oak Lane",
+        "city": "Pretendville",
+        "state": "HI",
+        "zip": "98999"
+      },
       "products": [
         {
           "product_id": 1,
