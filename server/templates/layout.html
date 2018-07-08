@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>LoNuestro |{% block title %} {% endblock %}</title>
+    {% block head %} {% endblock %}
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom: 2px solid #ff7701;">
+      <a class="navbar-brand" href="{{ url_for('index') }}">Lo Nuestro | >></a>
+      <button class="navbar-toggler navbar-brand" type="button" data-toggle="collapse"
+              data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('index') }}">TODOS<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('fireside') }}">HOGAR</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('clothes') }}">ROPA<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('food') }}">COMIDA</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('drinks') }}">BEBIDAS</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('others') }}">OTROS</a>
+          </li>
+        </ul>
+        <span class="navbar-text">
+        <ul class="navbar-nav mr-auto">
+              {% if current_user.is_authenticated %}
+                <div class="dropdown show">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ current_user.first_name }}'s Menu
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      {% if current_user.is_admin %}
+                          <a class="dropdown-item" href="{{ url_for('add_product') }}">Agregar Producto</a>
+                      {% endif %}
+                      <a href ="{{ url_for('basket', user_id=current_user.id) }}" class="dropdown-item">Carrito
+                        {% if current_order != None %}
+                            ({{ current_basket }})
+                        {% else %}
+                            (0)
+                        {% endif %}
+                      </a>
+                    <a class="dropdown-item" href="{{ url_for('account', user_id=current_user.id) }}">Ver cuenta</a>
+                  </div>
+                </div>
+                <li class="nav-item active">
+                    <a href ="{{ url_for('logout') }}" class="nav-link login_links">Salir</a>
+                </li>
+             {% else %}
+                <li class="nav-item active">
+                    <a href="{{ url_for('login') }}" class="nav-link login_links">Acceder</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="{{ url_for('register') }}" class="nav-link login_links">Registrar</a>
+                </li>
+            {% endif %}
+        </ul>
+        </span>
+      </div>
+</nav>
+ <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <!-- messages is a list of tuples, containing the category, then the message.-->
+            <!-- this loops through and unpacks them -->
+            <script>
+                window.setTimeout(function() {
+                document.getElementById("notification").style.display= "none";
+                }, 2500);
+            </script>
+            {% for category, message in messages %}
+
+                <!-- this sets the notifications class to the category so we can style them different-->
+                <!-- then prints the message in the div-->
+                <div id="notification" class="notification {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% block content %}
+{% endblock %}
+     <footer class="text-muted" style="padding-top:30px;">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Regresar Arriba</a>
+        </p>
+        <p>LoNuestro&copy; Es una aplicación para el comercio de productos autoctonos Colombianos!</p>
+        <p>Contacto</p>
+        <p>Telefono</p>
+        <p>Whatsapp</p>
+      </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/static/js/scripts.js"></script>
+</body>
+</html>

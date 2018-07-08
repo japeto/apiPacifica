@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block title %}Principal{{ super() }}{% endblock %}
+{% block content %}
+    {{ super() }}
+      <section class="jumbotron text-center bg-dark" id="main">
+        <div class="container" >
+            <h1 class="jumbotron-heading">
+                <span class="text-secondary">Bienvenido a</span>
+                <span class="font-weight-bold text-logo">LoNuestro.com</span>
+            </h1>
+          <p class="lead text-muted">
+              Nace como la respuesta a las necesidades comerciales de nuestro entorno, venta de productos<br/>
+              colombianos autoctonos, culturales
+          </p>
+        <p>
+            <a href="#"><span class="font-weight-bold text-logo">Usa nuestra aplicación movíl</span></a>
+        </p>
+        </div>
+      </section>
+        <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row">
+              {% for product in products %}
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ product.product_image_path }}" alt="Imagen para {{ product.product_name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.product_name }}<br>{{ "$%.2f"|format(product.product_price) }}</h5>
+                    <p class="card-text">{{ product.product_description }}<br><br>
+                        <strong>Disponible: </strong>{{ product.stock_level }}
+                        <br><strong>Tamaños: </strong>
+                        {% if product.product_size == 's' or product.product_size == 'm' or product.product_size == 'l'%}
+                            {% filter upper %}{{ product.product_size }}{% endfilter %}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </p>
+                    {% if current_user.is_authenticated %}
+                        <p><strong>Cantidad</strong></p>
+                        <form action="{{ url_for('add_to_order', product_id=product.id) }}" method="POST">
+                            <select name="quantity" class="quantity">
+                            {% for i in range(1, product.stock_level+1) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Agregar al Carrito</button>
+                        </form>
+                    {% else %}
+                        <a href="{{ url_for('login', product_id=product.id)}}" class="btn btn-sm btn-outline-secondary">Accede para comprar</a>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+              {% endfor %}
+          </div>
+        </div>
+    </div>
+{% endblock %}

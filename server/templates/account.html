@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block title %}My Account{{ super() }}{% endblock %}
+
+{% block content %}
+    <div class="container basket">
+        <div class="row">
+            <article class="basket-item col-lg-8 mx-auto">
+                <h2>{{ current_user.first_name }} {{ current_user.last_name }}
+                <a href="#" class="alter_details">Change Name</a></h2><br>
+                <p><strong>Email address: </strong> {{ current_user.email }} <a href="#" class="alter_details">Change Email Address</a></p><br><br>
+                <h2>Address Details - <a href="#" class="alter_details">Change Address</a></h2>
+                <p><strong>House/Flat Name/Number: </strong> {{ current_user.house_number }}</p>
+                <p><strong>Address Line 1: </strong> {{ current_user.address_line_1 }}</p>
+                <p><strong>Address Line 2: </strong> {{ current_user.address_line_2 }}</p>
+                <p><strong>Post Code: </strong> {{ current_user.post_code }}</p>
+                <form action="{{ url_for('remove_account', user_id=current_user.id) }}">
+                    <button type="submit" class="remove_account btn btn-danger">Delete Account</button>
+                </form>
+            </article>
+        </div>
+    </div>
+{% endblock %}

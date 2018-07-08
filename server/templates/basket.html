@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}Basket{{ super() }}{% endblock %}
+{% block content %}
+    {% if current_order == None or current_order.order_lines.count() == 0 %}
+        <div class="container empty-basket">
+            <h2 class="page-heading">Hola {{ current_user.first_name }}, Tu carrito de compras no tiene nada todavia</h2>
+            <a href="{{ url_for('index') }}">Ver productos</a>
+        </div>
+    {% else %}
+
+      <section class="jumbotron text-center ">
+        <div class="container" >
+            <h3 class="jumbotron-heading">
+                <span class="">Carrito de </span>
+                <span class="font-weight-bold text-logo">Compras</span>
+            </h3>
+        <div class="container basket">
+        {% for item in current_order.order_lines %}
+            <div class="row">
+                <article class="basket-item col-lg-8 mx-auto">
+                    <h3>{{ item.product.product_name }}</h3>
+                    <p><strong>Quantity: </strong>{{ item.quantity }}
+                    <a href="{{ url_for('remove_from_order', order_line_id=item.id, product_id=item.product_id, quantity=item.quantity) }}" class="align-top">Remove Item</a></p>
+                    <p>{{ item.product.product_description }}</p>
+                </article>
+            </div>
+        {% endfor %}
+        </div>
+
+      </section>
+
+    {% endif %}
+    </div>
+{% endblock %}
