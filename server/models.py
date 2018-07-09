@@ -1,11 +1,11 @@
 import datetime
-
 from peewee import *
 from flask import flash
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 
-db = SqliteDatabase('orderapp.db')
+# db = SqliteDatabase('orderapp.db')
+db = MySQLDatabase('BAZAPACIFICA', user='bazapacifica', passwd='JuanBaza*2')
 
 class User(UserMixin, Model):
     first_name = CharField()
