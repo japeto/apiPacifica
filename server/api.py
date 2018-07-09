@@ -8,4 +8,4 @@ from app import app
 def api():
     return jsonify({'user': 'dsds', 'access_token': 'sdsdsdsd'})
 
-app.run(host='localhost', debug=True, port=5000)
+app.run(host='0.0.0.0', debug=False, port=5000)
