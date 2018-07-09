@@ -5,7 +5,7 @@ from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 
 # db = SqliteDatabase('orderapp.db')
-db = MySQLDatabase('BAZAPACIFICA', user='bazapacifica', passwd='JuanBaza*2')
+db = MySQLDatabase('BAZAPACIFICA', user='', passwd='')
 
 class User(UserMixin, Model):
     first_name = CharField()
