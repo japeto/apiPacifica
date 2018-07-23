@@ -1,19 +1,35 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import ProductCard from './ProductCard.js';
+import React from 'react';
+import { StackNavigator } from 'react-navigation';
+import Home from './Home';
+import Profile from './Profile';
+import ShoppingCart from './ShoppingCart';
+import Providers from './Providers';
+import Services from './Services';
+import Contact from './Contact';
+import About from './About';
+import Exit from './Exit';
 
-const prods = ["Producto1", "Producto2","Producto3","Producto4","Producto5","Producto6","Producto7","Producto8"];
+const NavigationApp2 = StackNavigator({
+  Home:{ screen :Home },
+  Profile : { screen : Profile },
+  ShoppingCart : { screen : ShoppingCart },
+  Providers : { screen : Providers },
+  Services : { screen : Services },
+  Contact : { screen : Contact },
+  About : { screen : About },
+  Exit : { screen : Exit },
+});
 
-export default class Main extends Component {
+export default class Main extends React.Component {
+  static navigationOptions = { header: null };
+  constructor(props){
+    console.log("main", props)
+    super(props);
+  }
   render() {
+    console.log("this.props.name>>> ", this.props.name, this.props.state)
     return (
-      <View >
-       {
-         prods.map(() => {
-           return <ProductCard/> 
-         })
-       }
-      </View>
+      <NavigationApp2 screenProps = {this.props.name} />
     );
   }
 }

@@ -1,0 +1,20 @@
+[01:10:47] Analyzing assets
+Building JavaScript bundle [==============================================] 100[01:10:47] Finished building JavaScript bundle in 394050ms.
+[01:10:47] Finished building JavaScript bundle in 65ms.
+[01:10:47] Finished building JavaScript bundle in 50ms.
+[01:10:47] Uploading assets
+[01:10:54] Uploading /logo.png
+[01:10:55] Uploading JavaScript bundles
+[01:11:52] Published
+[01:11:52] Your URL is
+
+https://exp.host/@japeto/snack-HkqAKsYX7
+
+[01:11:53] Building...
+[01:11:54] Build started, it may take a few minutes to complete.
+[01:11:54] You can monitor the build at
+
+ https://expo.io/builds/b94126ac-475f-4992-8849-14cb894f7f15
+
+|[01:11:54] Waiting for build to complete. You can press Ctrl+C to exit.
+[01:23:17] Successfully built standalone app: https://expo.io/artifacts/1a771061-689f-4c19-a6dd-dfa7026b66c2

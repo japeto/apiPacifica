@@ -14,7 +14,7 @@ export default class APIUsers extends RestClient {
     return this.GET('/users?offset='+offset+'&limit='+limit)
       .then(response => response.data);
   }
-  getUser (user) {
+  getUserId (user) {
     return this.GET('/users/'+user.userId)
       .then(response => response.data);
   }
@@ -25,6 +25,10 @@ export default class APIUsers extends RestClient {
   getUserProducts(user) {
     return this.GET('/users/'+user.userId+"/products")
       .then(response => response.data);
+  }
+  
+  getUser (email, password) {
+    return this.POST('/users/', {appversion:"v1.10", email: email, password : password});
   }
   newUser (user) {
     return this.POST('/users', user);

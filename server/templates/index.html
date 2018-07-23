@@ -23,9 +23,9 @@
               {% for product in products %}
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="{{ product.product_image_path }}" alt="Imagen para {{ product.product_name }}">
+                <img class="card-img-top" src="data:image/jpeg;base64,{{ product.product_image._buffer.decode() }}" alt="Imagen para {{ product.product_name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ product.product_name }}<br>{{ "$%.2f"|format(product.product_price) }}</h5>
+                    <h5 class="card-title">{{ product.product_name }}<br>{{ "$%.2f"|format_currency(product.product_price) }}</h5>
                     <p class="card-text">{{ product.product_description }}<br><br>
                         <strong>Disponible: </strong>{{ product.stock_level }}
                         <br><strong>Tamaños: </strong>

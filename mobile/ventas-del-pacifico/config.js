@@ -1,6 +1,6 @@
 
 const config = {
-  home:'http://10.124.0.95:8907/api/1.0',
+  home:'http://192.168.0.10:5000/api',
  // Production settings
   production: {
     api: 'api/1.0',

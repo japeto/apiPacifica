@@ -1,8 +1,9 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm as Form
 from wtforms import StringField, PasswordField, TextAreaField, BooleanField, DecimalField, SelectField, IntegerField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                 Length, EqualTo)
-
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+# from wtforms.fields import FileField, HiddenField
 from models import User, Product
 
 
@@ -70,12 +71,12 @@ class CreateProductForm(Form):
         'Categoria',
         choices=[
             ('blank', 'Categoria'), ('home', 'Hogar'), ('clothes', 'Ropa'), ('food', 'Comida')
-            , ('drink', 'Bebidas')
+            , ('drink', 'Bebidas'),('others', 'Otros')
         ]
     )
 
     product_size = SelectField(
-        'Tamaño (Deja en blanco, si no posee tamaño)',
+        'Tamaño',
         choices=[
             ('blank', 'Tamaño (Deja en blanco, no posee tamaño)'),
             ('s', 'Small'), ('m', 'Medium'), ('l', 'Large')
@@ -87,23 +88,24 @@ class CreateProductForm(Form):
         validators=[DataRequired(), product_exists]
     )
 
-    product_description = StringField(
+    product_description = TextAreaField(
         'Descripción',
         validators=[DataRequired()]
     )
 
-    product_image_path = StringField(
-        'Imagen',
-    )
+    product_image = FileField('Imagen Producto', validators=[
+        FileRequired(),
+        FileAllowed(['jpg', 'png'], 'Solamente imagenes')
+    ])
 
     product_price = DecimalField(
-        'Precio',
+        'Precio ($)',
         places=2,
         validators=[DataRequired()]
     )
 
     stock_level = IntegerField(
-        'Cantidad agregada',
+        'Cantidad agregada (stock)',
         validators=[DataRequired()]
     )
 

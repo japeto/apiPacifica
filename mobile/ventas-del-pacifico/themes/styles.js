@@ -21,8 +21,11 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   logo: {
-    backgroundColor: "#056ecf",
+    backgroundColor: "white",
     alignItems: 'center',
+    justifyContent : 'center',
+    color: '#FFF',
+    textAlign: 'center',
     height: 128,
   },
   welcome: {
@@ -30,7 +33,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: '#FFF',
     textAlign: 'center',
-    padding: 10,
+    padding: 30,
+  },
+  dashboard:{
+    flex: 1,
+    padding: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   load: {
     flex: 1,

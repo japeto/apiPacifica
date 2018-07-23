@@ -2,21 +2,88 @@
 {% block title %}My Account{{ super() }}{% endblock %}
 
 {% block content %}
-    <div class="container basket">
-        <div class="row">
-            <article class="basket-item col-lg-8 mx-auto">
-                <h2>{{ current_user.first_name }} {{ current_user.last_name }}
-                <a href="#" class="alter_details">Change Name</a></h2><br>
-                <p><strong>Email address: </strong> {{ current_user.email }} <a href="#" class="alter_details">Change Email Address</a></p><br><br>
-                <h2>Address Details - <a href="#" class="alter_details">Change Address</a></h2>
-                <p><strong>House/Flat Name/Number: </strong> {{ current_user.house_number }}</p>
-                <p><strong>Address Line 1: </strong> {{ current_user.address_line_1 }}</p>
-                <p><strong>Address Line 2: </strong> {{ current_user.address_line_2 }}</p>
-                <p><strong>Post Code: </strong> {{ current_user.post_code }}</p>
-                <form action="{{ url_for('remove_account', user_id=current_user.id) }}">
-                    <button type="submit" class="remove_account btn btn-danger">Delete Account</button>
-                </form>
-            </article>
-        </div>
-    </div>
+<div class="container basket">
+	<div class="row">
+		<div class="col-md-3 ">
+		     <div class="list-group ">
+              <a href="#" class="list-group-item list-group-item-action">Apariencia</a>
+              <a href="#" class="list-group-item list-group-item-action active">Perfil de Usuario</a>
+              <a href="#" class="list-group-item list-group-item-action">Usuarios</a>
+              <a href="#" class="list-group-item list-group-item-action">Permisos</a>
+              <a href="#" class="list-group-item list-group-item-action">Categorias</a>
+              <a href="#" class="list-group-item list-group-item-action">Comentarios</a>
+              <a href="#" class="list-group-item list-group-item-action">Appearance</a>
+              <a href="#" class="list-group-item list-group-item-action">Reportes</a>
+              <a href="#" class="list-group-item list-group-item-action">Aplicación Movil</a>
+              <a href="#" class="list-group-item list-group-item-action">Configuracion</a>
+            </div>
+		</div>
+		<div class="col-md-9">
+		    <div class="card">
+		        <div class="card-body">
+		            <div class="row">
+		                <div class="col-md-12">
+		                    <h4> {{ current_user.first_name }}</h4>
+		                    <hr>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-md-12">
+		                    <form action="{{ url_for('update_account', user_id=current_user.id) }}">
+                              <div class="form-group row">
+                                <label for="name" class="col-4 col-form-label">Nombre</label>
+                                <div class="col-8">
+                                  <input id="firstname" name="firstname" placeholder="Amado" class="form-control" type="text" value='{{ current_user.first_name }}'>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Apellidos</label>
+                                <div class="col-8">
+                                  <input id="lastname" name="lastname" placeholder="Nervo" class="form-control" type="text" value='{{ current_user.last_name }}'>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="email" class="col-4 col-form-label">Email*</label>
+                                <div class="col-8">
+                                  <input id="email" name="email" placeholder="ejemplo@lonuestro.com.co" class="form-control" required="required" type="text"value='{{ current_user.email }}'>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="website" class="col-4 col-form-label">Telefono</label>
+                                <div class="col-8">
+                                  <input id="housenumber" name="housenumber" placeholder="(+57) 454 54 54" class="form-control" type="text"value='{{ current_user.house_number }}'>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="website" class="col-4 col-form-label">Dirreccion 1</label>
+                                <div class="col-8">
+                                  <input id="address1" name="address1" placeholder="Cra 34 # 12-87" class="form-control" type="text"value='{{ current_user.address_line_1 }}'>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="website" class="col-4 col-form-label">Dirreccion 2</label>
+                                <div class="col-8">
+                                  <input id="address2" name="address2" placeholder="Calle 44 N 24-12 " class="form-control" type="text"value='{{ current_user.address_line_2 }}'>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="newpass" class="col-4 col-form-label">Nueva Contraseña</label>
+                                <div class="col-8">
+                                  <input id="newpass" name="newpass" placeholder="" class="form-control" type="password" >
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                  <button name="submit" type="submit" class="btn btn-info btn-block">Actualizar Mi Perfil</button>
+                                </div>
+                              </div>
+                            </form>
+		                </div>
+		            </div>
+
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
 {% endblock %}

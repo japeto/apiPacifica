@@ -5,11 +5,12 @@ from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 
 # db = SqliteDatabase('orderapp.db')
-db = MySQLDatabase('BAZAPACIFICA', user='bazapacifica', passwd='JuanBaza*2')
+db = MySQLDatabase('BAZAPACIFICA',host='localhost', user='bazapacifica', passwd='Juan*2')
 
 class User(UserMixin, Model):
     first_name = CharField()
     last_name = CharField()
+    avatar = BigBitField()
     email = CharField(unique=True)
     password = CharField(max_length=100)
     joined_at = DateTimeField(default=datetime.datetime.now)
@@ -53,7 +54,7 @@ class User(UserMixin, Model):
 class Product(Model):
     product_name = CharField(unique=True)
     product_description = TextField()
-    product_image_path = CharField()
+    product_image = BigBitField()
     product_added = DateField(default=datetime.datetime.now)
     product_price = DoubleField()
     product_category = CharField()
@@ -65,36 +66,39 @@ class Product(Model):
 
     @classmethod
     def create_product(cls, product_category, product_size, product_name,
-                       product_description, product_image_path, product_price, stock_level):
+                       product_description, product_image, product_price, stock_level):
         try:
             cls.create(
                 product_category=product_category,
                 product_size=product_size,
                 product_name=product_name,
                 product_description=product_description,
-                product_image_path=product_image_path,
+                product_image=product_image,
                 product_price=product_price,
                 stock_level=stock_level
             )
-        except IntegrityError:
+        except IntegrityError as e:
+            print(e)
             raise ValueError("Este Producto ya existe")
 
     @classmethod
-    def update_product(cls, product_id, product_size, product_name,
-                       product_description, product_image_path, product_price, stock_level):
+    def update_product(cls, product_id, product_category, product_size, product_name,
+                       product_description, product_image, product_price, stock_level):
         try:
-            product=cls(
-                id=product_id,
-                product_size=product_size,
-                product_name=product_name,
-                product_description=product_description,
-                product_image_path=product_image_path,
-                product_price=product_price,
-                stock_level=stock_level
-            )
-            product.save()
+            if product_image:
+                Product.update(product_category=product_category, product_size=product_size,
+                               product_name=product_name, product_description=product_description,
+                               product_image=product_image, product_price=product_price, stock_level=stock_level)\
+                    .where(Product.id == product_id)\
+                    .execute()
+            else:
+                Product.update(product_category=product_category, product_size=product_size,
+                        product_name=product_name, product_description=product_description,
+                        product_price=product_price, stock_level=stock_level)\
+                    .where(Product.id == product_id)\
+                    .execute()
         except IntegrityError:
-            raise ValueError("Este Producto ya existe")
+            raise ValueError("Este Producto no se pudo actualizar")
 
     @classmethod
     def update_stock(cls, product_id, quantity, add_or_reduce):
@@ -105,7 +109,19 @@ class Product(Model):
         product = cls(id=product_id, stock_level=new_stock)
         product.save()
 
+    def __str__(self):
+        cadena=self.product_name+" , "+\
+               self.product_description+" , "+\
+               str(self.product_image._buffer.decode())+" , "+\
+               str(self.product_price)+" , "+\
+               self.product_category+" , "+\
+               self.product_size+" , "+\
+               str(self.stock_level)
+        return cadena
+
+
 class Order(Model):
+    order_id = UUIDField(primary_key=True)
     user = ForeignKeyField(User, related_name='orders')
     order_date = DateField(default=datetime.datetime.now)
     order_complete = BooleanField(default=False)
@@ -141,6 +157,7 @@ class Order(Model):
             return None
 
 class OrderLine(Model):
+    orderline_id = UUIDField(primary_key=True)
     product = ForeignKeyField(Product, related_name='order_line')
     order = ForeignKeyField(Order, related_name='order_lines')
     quantity = IntegerField(default=0)

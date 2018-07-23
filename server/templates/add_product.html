@@ -1,67 +1,66 @@
 {% extends 'layout.html' %}
 {% from 'macros.html' import render_field %}
+{% from 'macros.html' import render_field_form %}
 {% block title %}Productos{{ super() }}{% endblock %}
 {% block content %}
     {{ super() }}
-<div class="container" style="padding-top:30px;">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-4">
-            <label class="btn text-secondary">
-                Lista de Productos |
-            </label>
-            <a class="btn btn-sm btn-secondary" href="/add_product">Nuevo </a>
-            <hr/>
-            <div class="list-group">
-                {% for product in products %}
-                <a href="/add_product/{{ product.id }}"
-                   class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ product.product_name }}</h5>
-                        <small class="text-muted">{{ "$%.2f" | format(product.product_price) }}</small>
-                    </div>
-                    <p class="mb-1">
-                        <strong>Disponible: </strong>{{ product.stock_level }}<br/>
-                        <strong>Tamaños: </strong>
-                        {% if product.product_size == 's' or product.product_size == 'm' or product.product_size ==
-                        'l'%}
-                        {% filter upper %}{{ product.product_size }}{% endfilter %}
-                        {% else %}
-                        -
-                        {% endif %}
-                    </p>
-                    <small class="text-muted">{{ product.product_description }}.</small>
-                </a>
-                {% endfor %}
+    <div class="container basket">
+	<div class="row">
+		<div class="col-md-3 ">
+		     <div class="list-group ">
+                 <div class="d-flex w-100 justify-content-between">
+                     <a class="btn btn-sm" > Lista de productos</a>
+                     <a class="btn btn-sm btn-secondary" href="/add_product">Nuevo </a>
+                 </div>
+                 <hr>
+                <div class="list-group">
+                    {% for product in products %}
+                    <a href="/edit_product/{{ product.id }}"
+                       class="list-group-item list-group-item-action flex-column align-items-start">
+                        <small class="mb-1">{{ product.product_name }}</small>
+                        <small class="text-primary">{{ "$%.2f"|format_currency(product.product_price) }}</small>
+                    </a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        <div class="col-md-8">
-            {% if form.product_category.data == 'None' %}
-            <form method="POST" action="">
-                {% else %}
-                <form action="/add_product/{{ product_id }}" method="POST">
-                    {% endif %}
-                    <div class="card">
-                        <article class="card-body">
-                            <p class="text-center">Agrega los productos de acuerdo a la categoria que pertenezcan</p>
-                            <hr>
-                            {{form.hidden_tag()}}
-                            {% for field in form %}
-                            {{ render_field(field)}}
-                            {% endfor %}
-                            {% if form.product_category.data == 'None' %}
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-info btn-block"> Agregar Producto</button>
-                            </div>
-                            {% else %}
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success btn-block"> Actualizar Producto</button>
-                            </div>
-                            {% endif %}
-                        </article>
-                    </div>
-                </form>
-        </div>
-    </div>
+		</div>
+		<div class="col-md-9">
+		    <div class="card">
+		        <div class="card-body">
+		            <div class="row">
+		                <div class="col-md-12">
+		                    <h4> Gestion Productos</h4>
+		                    <hr>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-md-12">
+		                    <form action="" method="POST" enctype="multipart/form-data">
+                                {{form.hidden_tag()}}
+                                {% for field in form %}
+                                <div class="form-group row">
+                                    <label for="name" class="col-4 col-form-label"> {% if field.label.text != 'CSRF Token' %} {{  field.label.text }} {% endif %}</label>
+                                    <div class="col-8">
+                                        {% if field.id != 'product_image' %}
+                                            {{ field(placeholder="", id=field.id, class="form-control", required="required") }}
+                                        {% else %}
+                                            {{ field(placeholder="", id=field.id, required="required") }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                              <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                  <button name="submit" type="submit" class="btn btn-info btn-block">Crear producto</button>
+                                </div>
+                              </div>
+                            </form>
+		                </div>
+		            </div>
+
+		        </div>
+		    </div>
+		</div>
+	</div>
 </div>
 {% endblock %}

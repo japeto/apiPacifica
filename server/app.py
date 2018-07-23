@@ -1,15 +1,19 @@
 from flask import (Flask, g, render_template, flash, redirect, url_for, abort, request)
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
-
-import forms
-import models
+import base64, forms, models
+import jinja2
 
 app = Flask(__name__)
 app.secret_key = "AWAWDFAHJDFGYDFHTSRGARSFGATDHDFDdfhtfngn"
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+def format_currency(format, value):
+    return "$ {:,.0f}".format(value)
+
+jinja2.filters.FILTERS['format_currency'] = format_currency
 
 @login_manager.user_loader
 def load_user(userid):
@@ -46,7 +50,6 @@ def login():
         else:
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
-                # flash("Bienvenido", "success")
                 return redirect(url_for('index'))
             else:
                 flash("Email or password incorrect", "error")
@@ -79,32 +82,26 @@ def logout():
 def add_product():
     if current_user.is_admin:
         form = forms.CreateProductForm()
+        f = form.product_image.data
         all_products = models.Product.select()
         if form.validate_on_submit():
-            if form.product_category.data == 'blank':
-                flash("Must select a category", "error")
-            elif form.product_category.data != 'cd' and form.product_size.data == 'blank':
-                flash("Must select a size", "error")
-            elif form.product_category.data == 'cd' and form.product_size.data != 'blank':
-                flash("Can't select size for CD", "error")
-            else:
-                models.Product.create_product(
-                    product_category=form.product_category.data,
-                    product_size=form.product_size.data,
-                    product_name=form.product_name.data,
-                    product_description=form.product_description.data,
-                    product_image_path=form.product_image_path.data,
-                    product_price=form.product_price.data,
-                    stock_level=form.stock_level.data,
-                )
-                flash("Producto agregado", "success")
-                return redirect(url_for('add_product'))
+            models.Product.create_product(
+                product_category=form.product_category.data,
+                product_size=form.product_size.data,
+                product_name=form.product_name.data,
+                product_description=form.product_description.data,
+                product_image= base64.b64encode(form.product_image.data.read()),
+                product_price=form.product_price.data,
+                stock_level=form.stock_level.data,
+            )
+            flash("Producto agregado", "success")
+            return redirect(url_for('add_product'))
         return render_template('add_product.html', products=all_products,
                                form=form, current_order=g.current_order, current_basket=g.current_basket)
     else:
         abort(404)
 
-@app.route('/add_product/<int:product_id>', methods=('GET', 'POST'))
+@app.route('/edit_product/<int:product_id>', methods=['GET', 'POST'])
 @login_required
 def edit_product(product_id):
     if current_user.is_admin:
@@ -114,10 +111,11 @@ def edit_product(product_id):
         if request.method == 'POST':
             models.Product.update_product(
                 product_id=product_id,
+                product_category=form.product_category.data,
                 product_size=form.product_size.data,
                 product_name=form.product_name.data,
                 product_description=form.product_description.data,
-                product_image_path=form.product_image_path.data,
+                product_image=base64.b64encode(form.product_image.data.read()) if form.product_image.data else None,
                 product_price=form.product_price.data,
                 stock_level=form.stock_level.data,
             )
@@ -127,13 +125,14 @@ def edit_product(product_id):
         form.product_size.data = product.product_size
         form.product_name.data = product.product_name
         form.product_description.data = product.product_description
-        form.product_image_path.data = product.product_image_path
+        form.product_image.data = product.product_image
         form.product_price.data = product.product_price
         form.stock_level.data = product.stock_level
-        return render_template('add_product.html', products=all_products, product_id=product_id,
+        return render_template('edit_product.html', products=all_products, product_id=product_id,
                                form=form, current_order=g.current_order, current_basket=g.current_basket)
     else:
         abort(404)
+
 
 @app.route('/products/clothes', methods=('POST', 'GET'))
 def clothes():
@@ -155,7 +154,7 @@ def food():
 
 @app.route('/products/drinks', methods=('POST', 'GET'))
 def drinks():
-    all_products = models.Product.select().where(models.Product.product_category == "drinks").limit(20)
+    all_products = models.Product.select().where(models.Product.product_category == "drink").limit(20)
     return render_template('products.html', products=all_products,
                            current_order=g.current_order, current_basket=g.current_basket)
 
@@ -216,6 +215,15 @@ def remove_account(user_id):
         models.User.remove_user(user_id)
         return redirect(url_for('logout'))
 
+@app.route('/update_account/<int:user_id>')
+def update_account(user_id):
+    if user_id == 1:
+        flash("Can not delete the built in administrator account", "error")
+        return redirect(url_for('account', user_id=current_user.id))
+    else:
+        models.User.remove_user(user_id)
+        return redirect(url_for('logout'))
+
 @app.route('/')
 def index():
     all_products = models.Product.select()
@@ -232,7 +240,7 @@ models.initialize()
 try:
     models.User.create_user(
         first_name='Administrador',
-        last_name='Account',
+        last_name='Administrador',
         email='admin@lonuestro.com.co',
         password='Admin*100',
         is_admin=True

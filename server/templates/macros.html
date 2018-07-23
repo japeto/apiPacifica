@@ -9,3 +9,8 @@
     {{ field(placeholder=field.label.text) }}
 </div>
 {% endmacro %}
+
+
+{% macro render_field_form(name, class='', value='', type='text') -%}
+    <input type="{{ type }}" name="{{ name }}" class="{{ class }}" value="{{ value }}"/>
+{%- endmacro %}

@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "ventas-del-pacifico",
-    "description": "No description",
-    "slug": "snack-Bkl4_wYAjM",
+    "name": "loNuestroApp",
+    "description": "Aplicacion Movil para lonuestro.com.co",
+    "slug": "snack-HkqAKsYX7",
     "privacy": "unlisted",
     "sdkVersion": "26.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
-    "primaryColor": "#cccccc",
-    "icon": "https://d1wp6m56sqw74a.cloudfront.net/~assets/c9aa1be8a6a6fe81e20c3ac4106a2ebc",
+    "primaryColor": "#ff7701",
+    "icon":"./logo.png",
     "loading": {
-      "icon": "https://d1wp6m56sqw74a.cloudfront.net/~assets/c9aa1be8a6a6fe81e20c3ac4106a2ebc",
+      "icon":"./logo.png",
       "hideExponentText": false
     },
     "packagerOpts": {
@@ -23,6 +23,11 @@
     },
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.lonuestro.lonuestroapp",
+      "versionCode":1 , 
+      "icon":"./logo.png",
     }
   }
 }
