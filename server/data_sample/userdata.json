@@ -1,0 +1,19 @@
+{
+    "address_line": "Cra 26 G # 108 -135",
+    "first_name": "PRUEBA",
+    "house_number": "(+56) 333 44 90",
+    "is_admin": false,
+    "key": 2,
+    "last_name": "PRUEBA",
+    "orders": [
+        {
+            "id": 2,
+            "product_added": "2018-03-21",
+            "product_category": "home",
+            "product_description": "Esta es una descripción para un producto.\r\nEsta es una descripción para un producto.",
+            "product_name": "TURBANTES MIS CAICEDO",
+            "product_price": 30000
+        }
+    ],
+    "status": 1
+}
