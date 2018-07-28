@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View , DrawerLayoutAndroid, Dimensions,
+import { StyleSheet, Text, View , DrawerLayoutAndroid, Dimensions, TextInput,
 ScrollView , ToastAndroid , ToolbarAndroid, TouchableOpacity} from 'react-native';
 
 import ImageCard from  './ImageCard';
@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-export default class Profile extends React.Component {
+export default class Providers extends React.Component {
   static navigationOptions = { header: null };
   constructor(props){
     super(props);
@@ -48,12 +48,15 @@ export default class Profile extends React.Component {
 
       <View style = { styles.toolbar }>
           <TouchableOpacity>
-            <Ionicons onPress = { () => this.navigate('Home') } style = {styles.profileicon} name="md-arrow-dropleft-circle" size={30} color="white" />  
+            <Ionicons onPress = {this.open.bind(this)} name = 'md-menu' size = {30} color = 'white' />
           </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons onPress = { () => this.navigate('ShoppingCart') } name = 'md-cart' size = {30} color = 'white' />
+        </TouchableOpacity>
         <Text onPress = { () => this.navigate('Home') }  style = { styles.toolbarText }>LoNuestro.com.co</Text>
         <View style = {styles.rightTool}>
           <TouchableOpacity>
-            <Ionicons onPress = { () => this.navigate('Home') } style = {styles.profileicon} name="md-arrow-dropright-circle" size={30} color="white" />  
+            <Ionicons onPress = { () => this.navigate('Home') } style = {styles.profileicon} name="md-search" size={30} color="white" />
           </TouchableOpacity>
         </View>
       </View>
@@ -67,27 +70,42 @@ export default class Profile extends React.Component {
             initialPage={0} >
             <ScrollView tabLabel="Panel proveedores" >
 
-              <View style={[styles.header, styles.bordered]}>
-                <View style={styles.row}>
-                  <Ionicons name = 'md-person' size = {90} color = 'white' />
+              <View style={styles.container}>
+                <View style={styles.header}>
+                  <View style={styles.headerContent}>
+                    <Ionicons name = 'md-text' size = {90} color = 'orange' />
+                    <View style={styles.section}>
+                      <Text style={ styles.texttop } >
+                      Escribenos si estas interesado en vicularte como proveedor de nuestros productos
+                      </Text>
+                    </View>
+                  </View>
                 </View>
-                <View style={styles.section}>
-                  <Text style={ styles.texttop } >hello world 1.........</Text>
-                </View>
-              </View>
+                
+                
 
-              <View style={styles.userInfo}>
-                <View style={styles.section}>
-                  <Text  >hello world 1.........</Text>
-                </View>
-                <View style={styles.section}>
-                  <Text  >hello world 1.........</Text>
-                </View>
-                <View style={styles.section}>
-                  <Text  >hello world 1.........</Text>
-                </View>
+
+              <View style={styles.body}>
+                <View style={styles.bodyContent}>
+                  <TextInput
+                      multiline={true} numberOfLines={4}
+                  style = {styles.inputBox} underlineColorAndroid = 'rgba(0,0,0,0)'
+                  onChangeText = { (text) => this.setState({text}) }
+                  autoCorrect = { false } placeholder = 'Mensaje' />
+
+                  <TextInput
+                  style = {styles.inputBox} underlineColorAndroid = 'rgba(0,0,0,0)'
+                  onChangeText = { (phone) => this.setState({phone}) }
+                  autoCorrect = { false } placeholder = 'Telefono' />
+
+                  <TouchableOpacity style = {styles.button} onPress = {() => this.registerUser( this.state ) }>
+                    <Text style = { styles.buttonText } >Enviar</Text>
+                  </TouchableOpacity>
+                </View>        
+              </View>   
+
+
               </View>
-              
             </ScrollView>
       </ScrollableTabView>   
     </DrawerLayoutAndroid>
@@ -107,6 +125,42 @@ const styles = StyleSheet.create({
     textAlign : 'center',
     marginTop : '15%',
     fontWeight: 'bold'
+  },
+  header:{
+    backgroundColor: "#343a40",
+    justifyContent : 'center',
+    alignItems: 'center'
+  },
+  headerContent:{
+    padding:20,
+    justifyContent : 'center',
+    alignItems: 'center'
+  },
+  bodyContent: {
+    flex: 1,
+    alignItems: 'center',
+    padding:10,
+  },
+  inputBox:{
+    width:'80%',
+    borderRadius : 3,
+    backgroundColor : 'rgba(255,255,255,0.4)',
+    height: 30,
+    color:'#fff',
+    paddingHorizontal : 10,
+    fontSize : 14,
+    margin : 7,
+  },
+  button : {
+    width:'80%',
+    backgroundColor  :'#f7c744',
+    alignItems : 'center',
+    padding: 10,
+    marginTop:10,
+    marginBottom : 20,
+    borderRadius : 4,
+    justifyContent : 'center',
+    elevation : 4,
   },
   topbar : {
     height : '20%',
@@ -158,10 +212,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  userInfo: {
-    flexDirection: 'row',
-    paddingVertical: 18,
   },
   bordered: {
     borderBottomWidth: 2,

@@ -2,11 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View, Image,
          TouchableOpacity  , TextInput , Alert , ActivityIndicator
        } from 'react-native';
-
+       
 import APIUsers from '../api/APIUsers.js'
 const user = new APIUsers();
+import APIProducts from '../api/APIProducts.js'
+const products = new APIProducts();
+
 import Main from './Main';
-import Register from './Register'
+
+
 
 export default class Login extends React.Component {
   static navigationOptions = { header: null };
@@ -26,11 +30,14 @@ export default class Login extends React.Component {
      this.setState({ status : false , loaded : true , email : '' , password : '' })
   }
 
-  loginUser(email,password){
-    console.log("loginUser >> email ", email, "password", password);
+  _loginUser(email, password){
     /*user.getUser(email, password).then((user) => {
       if (user.status){
-        this.setState({ email : email, status : true, loaded : true, apikey: user.key });
+        this.setState({ 
+          email : email, status : true, loaded : true, apikey: user.key,
+          first_name: user.first_name, last_name: user.last_name, 
+          house_number: user.house_number, address_line_1: user.address_line_1
+        });
       }else {
         Alert.alert(
           'Error de Acceso',
@@ -49,13 +56,37 @@ export default class Login extends React.Component {
       this.setState({ status : false, loaded : true});
       console.log('There was an error:' + err)
     })*/
-
-this.setState({ email : "email@admin.com", status : true, loaded : true, apikey: 1234 });
+    if(email == "marcela@ln.com.co" && password == "1216"){
+        this.setState({ 
+          email : "marcela@ln.co", status : true, loaded : true, apikey: "user.key",
+          first_name: "Marcela", last_name: "Azcarate", 
+          house_number: "333 33 333", address_line_1: "Cll 32 # 23 -12"
+        });
+    }
+    if(email == "mayra@ln.com.co" && password == "12345"){
+        this.setState({ 
+          email : "mayra@ln.co", status : true, loaded : true, apikey: "user.key",
+          first_name: "Mayra", last_name: "Erazo", 
+          house_number: "333 33 333", address_line_1: "Cll 32 # 23 -12"
+        });
+    }
+    if(email == "japeto" && password == "123"){
+        this.setState({ 
+          email : "japeto@ln.co", status : true, loaded : true, apikey: "user.key",
+          first_name: "Jefferson", last_name: "Pena", 
+          house_number: "333 33 333", address_line_1: "Cll 32 # 23 -12"
+        });
+    }
+    if(email == "8907" && password == "8907"){
+      this.setState({ 
+        email : "email@email.com", status : true, loaded : true, apikey: "user.key",
+        first_name: "user.first_name", last_name: "user.last_name", 
+        house_number: "user.house_number", address_line_1: "user.address_line_1"
+      });
+    }
 
   }
-  _onPressButton() {
-    Alert.alert('You tapped the button!');
-  }
+
   render() {
     const { navigate } = this.props.navigation;
     if(this.state.status == true && this.state.loaded == true){
@@ -69,23 +100,19 @@ this.setState({ email : "email@admin.com", status : true, loaded : true, apikey:
         <TextInput
          style = {styles.inputBox} underlineColorAndroid = 'rgba(0,0,0,0)'
          onChangeText = { (email) => this.setState({email}) }
-         autoCorrect = { false } placeholder = 'Correo' 
-         value = "admin@lonuestro.com.co"/>
+         autoCorrect = { false } placeholder = 'Correo'
+         autoCapitalize = 'none'/>
         <TextInput
          style = {styles.inputBox} underlineColorAndroid = 'rgba(0,0,0,0)'
           onChangeText = { (password) => this.setState({ password }) }
           secureTextEntry = {true} autoCorrect = {false} placeholder = 'Contraseña'/>
-        <TouchableOpacity style = {styles.button} onPress = {() => this.loginUser(this.state.email, this.state.password) }>
+        <TouchableOpacity style = {styles.button} onPress = {() => this._loginUser(this.state.email, this.state.password) }>
           <Text style = { styles.buttonText } >Acceder</Text>
         </TouchableOpacity>
           <View style = {styles.signupTextContent}>
             <View style = {styles.signUpView} >
-              <Text style = {styles.signupText} >No tienes una cuenta?</Text>
-              
-              <TouchableOpacity  onPress={this._onPressButton}>
-                <Text style = { styles.signupText } > Registrate.</Text>
-              </TouchableOpacity>
-
+              <Text style = {styles.signupText} >¿No tienes una cuenta?</Text>
+              <Text onPress = { () => this.navigate('Register') } style = { styles.signupText }> Registrate</Text>
             </View>
           </View>
         </View>
@@ -98,8 +125,7 @@ this.setState({ email : "email@admin.com", status : true, loaded : true, apikey:
   }
   }
 }
-
-//Styles
+//Styles 
 const styles = StyleSheet.create({
      container : {
        flex : 1,

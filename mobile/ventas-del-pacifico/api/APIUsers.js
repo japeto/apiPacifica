@@ -7,16 +7,17 @@ export default class APIUsers extends RestClient {
   }
   // Users
   getAUsers () {
-    return this.GET('/users')
-      .then(response => response.data);
+    return
   }
   getUsers (offset, limit) {
     return this.GET('/users?offset='+offset+'&limit='+limit)
       .then(response => response.data);
   }
-  getUserId (user) {
-    return this.GET('/users/'+user.userId)
-      .then(response => response.data);
+  getUserEmail = ( email ) => {
+    return fetch(config.home+"/userdata.json")
+        .then(response=> response.json())
+        .then(responseJson => responseJson)
+        .catch(error => console.error(error));
   }
   getUserOrders (user) {
     return this.GET('/users/'+user.userId+"/orders")
@@ -26,12 +27,13 @@ export default class APIUsers extends RestClient {
     return this.GET('/users/'+user.userId+"/products")
       .then(response => response.data);
   }
-  
   getUser (email, password) {
-    return this.POST('/users/', {appversion:"v1.10", email: email, password : password});
+    if (email == "") return;
+    if (password == "") return;
+    return this.POST('/users/', {appversion: config.version, email: email, password : password});
   }
   newUser (user) {
-    return this.POST('/users', user);
+    return this.POST('/users/registration/', user);
   }
   editUser (user) {
     return this.PUT('/users', user);

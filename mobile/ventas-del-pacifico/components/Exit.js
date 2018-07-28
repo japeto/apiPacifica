@@ -4,11 +4,16 @@ import { StyleSheet, Text, View, Image,
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Ionicons } from '@expo/vector-icons';
 
-export default class Profile extends React.Component {
+export default class Exit extends React.Component {
   static navigationOptions = { header: null };
   constructor(props){
     super(props);
+    console.log(">>>>> ", props);
     this.navigate = props.navigation.navigate.bind(this);
+    this.func = props.screenProps;
+  }
+  logOut(){  
+    this.setState({ status : false , loaded : true , email : '' , password : '' })
   }
   render() {
     const { navigate } = this.props.navigation
@@ -25,7 +30,7 @@ export default class Profile extends React.Component {
               ¿Estas seguro que deseas salir?
             </Text>
           </View>
-        <TouchableOpacity style = {styles.button} onPress = {this.props.screenProps} >
+        <TouchableOpacity style = {styles.button} onPress = { this.func['logout'] } >
           <Text style = { styles.buttonText } >Salir </Text>
         </TouchableOpacity>
       </View>

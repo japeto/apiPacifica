@@ -4,12 +4,15 @@ import config from '../config.js';
 export default class APIProducts extends RestClient {
   constructor() {
     super(config.home);
+    console.log("IP ", config.home);
   }
   // Productos
-  getAProducts () {
-    //return { title: "sdsdsd > ", prd: "producto" };
-    return this.GET('/products')
-      .then(response => response.data);
+  getAProducts = (path) => {
+    return fetch(config.home+"/product.json")
+    //return fetch(config.home+"/products/"+path)
+        .then(response=> response.json())
+        .then(responseJson => responseJson.products)
+        .catch(error => console.error(error));
   }
   getProducts (offset, limit) {
     return this.GET('/products?offset='+offset+'&limit='+limit)

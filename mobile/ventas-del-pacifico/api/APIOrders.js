@@ -3,13 +3,17 @@ import config from '../config.js';
 
 export default class APIOrders extends RestClient {
   constructor() {
-    //super(config.home);
-    super('https://raw.githubusercontent.com/japeto/stackPacifica/master/data');
+    super(config.home);
+    console.log("IP ", config.home);
   }
   // Order
   getAOrders () {
-    return this.GET('/order.json')
-      .then(response => response);
+    return fetch(config.home+"/basket.json")
+    //return fetch(config.home+"/products/"+path)
+        .then(response=> response.json())
+        .then(responseJson => responseJson.current_order.order_lines)
+        .catch(error => console.error(error));
+
   }
   getOrders (offset, limit) {
     return this.GET('/orders?offset='+offset+'&limit='+limit)

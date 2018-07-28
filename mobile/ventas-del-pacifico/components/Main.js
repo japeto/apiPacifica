@@ -2,6 +2,7 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import Home from './Home';
 import Profile from './Profile';
+import Product from './Product';
 import ShoppingCart from './ShoppingCart';
 import Providers from './Providers';
 import Services from './Services';
@@ -13,6 +14,7 @@ const NavigationApp2 = StackNavigator({
   Home:{ screen :Home },
   Profile : { screen : Profile },
   ShoppingCart : { screen : ShoppingCart },
+  Product : { screen : Product },
   Providers : { screen : Providers },
   Services : { screen : Services },
   Contact : { screen : Contact },
@@ -23,13 +25,24 @@ const NavigationApp2 = StackNavigator({
 export default class Main extends React.Component {
   static navigationOptions = { header: null };
   constructor(props){
-    console.log("main", props)
     super(props);
   }
   render() {
-    console.log("this.props.name>>> ", this.props.name, this.props.state)
     return (
-      <NavigationApp2 screenProps = {this.props.name} />
+      <NavigationApp2 screenProps = {
+        { 
+          logout: this.props.name,
+          email : this.props.state['email'],
+          first_name : this.props.state['first_name'],
+          last_name : this.props.state['last_name'],
+          house_number : this.props.state['house_number'],
+          address_line_1 : this.props.state['address_line_1'],
+          status : false,
+          loaded : true,
+          registered : false,
+          apikey: this.props.state['apikey']
+        }
+      } />
     );
   }
 }

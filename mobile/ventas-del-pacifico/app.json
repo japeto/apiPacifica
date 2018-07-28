@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "loNuestroApp",
-    "description": "Aplicacion Movil para lonuestro.com.co",
-    "slug": "snack-HkqAKsYX7",
+    "name": "LoNuestro",
+    "description": "Aplicacion de ventas y pedidos para productos colombianos",
+    "slug": "snack-Bylhh7B47",
     "privacy": "unlisted",
     "sdkVersion": "26.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#ff7701",
-    "icon":"./logo.png",
-    "loading": {
-      "icon":"./logo.png",
-      "hideExponentText": false
+    "icon": "./assets/logo.png",
+    "notification": {
+      "icon": "./assets/logo.png",
+      "color": "#ff7701"
     },
     "packagerOpts": {
       "assetExts": [
@@ -22,12 +22,14 @@
       ]
     },
     "ios": {
-      "supportsTablet": true
+		"bundleIdentifier": "com.lonuestro.lonuestro",
+		"supportsTablet": true
     },
     "android": {
-      "package": "com.lonuestro.lonuestroapp",
-      "versionCode":1 , 
-      "icon":"./logo.png",
+		"package": "com.lonuestro.lonuestro",
+		"permissions": [
+		  "VIBRATE",
+		],
     }
   }
 }

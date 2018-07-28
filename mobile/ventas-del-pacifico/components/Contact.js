@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View , DrawerLayoutAndroid, Dimensions,
+import { StyleSheet, Text, View , DrawerLayoutAndroid, Dimensions, Image,
 ScrollView , ToastAndroid , ToolbarAndroid, TouchableOpacity} from 'react-native';
 
 import ImageCard from  './ImageCard';
@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-export default class Profile extends React.Component {
+export default class Contact extends React.Component {
   static navigationOptions = { header: null };
   constructor(props){
     super(props);
@@ -48,8 +48,11 @@ export default class Profile extends React.Component {
 
       <View style = { styles.toolbar }>
           <TouchableOpacity>
-            <Ionicons onPress = { () => this.navigate('Home') } style = {styles.profileicon} name="md-arrow-dropleft-circle" size={30} color="white" />  
+            <Ionicons onPress = {this.open.bind(this)} name = 'md-menu' size = {30} color = 'white' />
           </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons onPress = { () => this.navigate('ShoppingCart') } name = 'md-cart' size = {30} color = 'white' />
+        </TouchableOpacity>
         <Text onPress = { () => this.navigate('Home') }  style = { styles.toolbarText }>LoNuestro.com.co</Text>
         <View style = {styles.rightTool}>
           <TouchableOpacity>
@@ -57,18 +60,22 @@ export default class Profile extends React.Component {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollableTabView style={styles.toolbarText}
-            tabBarBackgroundColor='white'
-            tabBarActiveTextColor='#ff7701'
-            tabBarInactiveTextColor='#555555'
-            activeTabStyle={{ backgroundColor: 'red' }}
-            tabBarUnderlineStyle={{backgroundColor: "white", color:"red", height: 10,}}
-            tabBarTextStyle={{fontSize: 15}}
-            initialPage={0} >
-            <ScrollView tabLabel="Contacto" >
-              
-            </ScrollView>
-      </ScrollableTabView>   
+    <View style={styles.container}>
+        <Image style={styles.logo} source={require("../assets/images/logomovil.png")}/>
+        <Text style={styles.title}>Siempre en contacto</Text>
+        <Text style={styles.description}>
+          <Text style={{padding: 2, flexDirection: 'row'}}> Nuestra linea telefonica de soporte: </Text>
+          <Text style={{padding: 2, flexDirection: 'row'}}> (+57) 333 89 90 </Text>
+          <Text style={{padding: 2, flexDirection: 'row'}}>Nuestra linea telefonica directa: </Text>
+          <Text style={{padding: 2, flexDirection: 'row'}}> (+57) 333 78 90 </Text>
+          <Text style={{padding: 2, flexDirection: 'row'}}> Nuestra linea telefonica pedidos: </Text>
+          <Text style={{padding: 2, flexDirection: 'row'}}> (+57) 333 89 33 </Text>
+        </Text>
+        <TouchableOpacity style = {styles.button}  onPress = { () => this.navigate('Home') } >
+          <Text style = { styles.buttonText } >Salir</Text>
+        </TouchableOpacity>
+    </View>
+
     </DrawerLayoutAndroid>
     );
   }
@@ -128,29 +135,46 @@ const styles = StyleSheet.create({
     fontSize : 30,
     fontWeight : 'bold'
   },
-  header: {
-    paddingTop: 25,
-    paddingBottom: 17,
-    backgroundColor: '#343a40'
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  userInfo: {
-    flexDirection: 'row',
-    paddingVertical: 18,
-  },
-  bordered: {
-    borderBottomWidth: 2,
-    borderColor: '#ff7701'
-  },
-  section: {
+
+ container: {
     flex: 1,
-    alignItems: 'center'
+    backgroundColor: '#ff7701',
+    alignItems: 'center',
+    paddingTop:50,
   },
-  texttop: {
-    color: '#fff'
+  logo:{
+    width:120,
+    height:120,
+    justifyContent: 'center',
+    marginBottom:10,
+    marginTop:30,
+  },
+  title:{
+    fontSize:24,
+    textAlign: 'center',
+    marginTop:22,
+    color: "#5F6D7A"
+  },
+  description: {
+    marginTop:20,
+    textAlign: 'center',
+    color: "#fff",
+    fontSize:16,
+    margin:40,
+  },
+  button : {
+    width:'80%',
+    backgroundColor  :'#f7c744',
+    alignItems : 'center',
+    padding: 10,
+    marginTop:10,
+    marginBottom : 20,
+    borderRadius : 4,
+    justifyContent : 'center',
+    elevation : 4,
+  },
+  buttonText: {
+    color: '#000',
   }
+
 });

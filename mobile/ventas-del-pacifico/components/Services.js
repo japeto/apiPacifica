@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View , DrawerLayoutAndroid, Dimensions,
+import { StyleSheet, Text, View , DrawerLayoutAndroid, Dimensions, Image,
 ScrollView , ToastAndroid , ToolbarAndroid, TouchableOpacity} from 'react-native';
 
 import ImageCard from  './ImageCard';
@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-export default class Profile extends React.Component {
+export default class Services extends React.Component {
   static navigationOptions = { header: null };
   constructor(props){
     super(props);
@@ -48,48 +48,30 @@ export default class Profile extends React.Component {
 
       <View style = { styles.toolbar }>
           <TouchableOpacity>
-            <Ionicons onPress = { () => this.navigate('Home') } style = {styles.profileicon} name="md-arrow-dropleft-circle" size={30} color="white" />  
+            <Ionicons onPress = {this.open.bind(this)} name = 'md-menu' size = {30} color = 'white' />
           </TouchableOpacity>
-        <Text onPress = { () => this.navigate('Home') }  style = { styles.toolbarText }>LoNuestro.com.co</Text>
+        <Text onPress = { () => this.navigate('Home') }  style = { styles.toolbarText }>                  </Text>
         <View style = {styles.rightTool}>
           <TouchableOpacity>
-            <Ionicons onPress = { () => this.navigate('Home') } style = {styles.profileicon} name="md-arrow-dropright-circle" size={30} color="white" />  
+            <Ionicons onPress = { () => this.navigate('Home') } style = {styles.profileicon} size={30} color="white" />  
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollableTabView style={styles.toolbarText}
-            tabBarBackgroundColor='white'
-            tabBarActiveTextColor='#ff7701'
-            tabBarInactiveTextColor='#555555'
-            activeTabStyle={{ backgroundColor: 'red' }}
-            tabBarUnderlineStyle={{backgroundColor: "white", color:"red", height: 10,}}
-            tabBarTextStyle={{fontSize: 15}}
-            initialPage={0} >
-            <ScrollView tabLabel="Panel Servicios" >
-
-              <View style={[styles.header, styles.bordered]}>
-                <View style={styles.row}>
-                  <Ionicons name = 'md-person' size = {90} color = 'white' />
-                </View>
-                <View style={styles.section}>
-                  <Text style={ styles.texttop } >hello world 1.........</Text>
-                </View>
-              </View>
-
-              <View style={styles.userInfo}>
-                <View style={styles.section}>
-                  <Text  >hello world 1.........</Text>
-                </View>
-                <View style={styles.section}>
-                  <Text  >hello world 1.........</Text>
-                </View>
-                <View style={styles.section}>
-                  <Text  >hello world 1.........</Text>
-                </View>
-              </View>
+        <View style={styles.container}>
+          <Image style={styles.logo} source={require("../assets/images/logomovil.png")}/>
+          <Text style={styles.companyName}>LoNuestro.com.co</Text>
+          <Text style={styles.slogan}>El mercado de los productos locales</Text>
+          <View style={styles.descriptionContent}>
+            <Text style={styles.description}>
+              Lorem ipsum dolor sit amet, altera conceptam ei cum. Hinc temporibus repudiandae eu mel, cum impetus legendos ei. 
+              Fugit everti dissentias duo cu, nihil fabellas id pri, nonumy verear ea pri. Sit et nisl eros.
+            </Text>
+          </View>
+            <TouchableOpacity style = {styles.button}  onPress = { () => this.navigate('Home') } >
+              <Text style = { styles.buttonText } >Salir</Text>
+            </TouchableOpacity>
+        </View>
               
-            </ScrollView>
-      </ScrollableTabView>   
     </DrawerLayoutAndroid>
     );
   }
@@ -149,29 +131,56 @@ const styles = StyleSheet.create({
     fontSize : 30,
     fontWeight : 'bold'
   },
-  header: {
-    paddingTop: 25,
-    paddingBottom: 17,
-    backgroundColor: '#343a40'
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  userInfo: {
-    flexDirection: 'row',
-    paddingVertical: 18,
-  },
-  bordered: {
-    borderBottomWidth: 2,
-    borderColor: '#ff7701'
-  },
-  section: {
+  
+  container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#ff7701',
+    paddingBottom: 0,
   },
-  texttop: {
-    color: '#fff'
+  logo:{
+    width:120,
+    height:120,
+    justifyContent: 'center',
+    marginBottom:10,
+    marginTop:30,
+  },
+  companyName: {
+    fontSize:32,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  slogan:{
+    fontSize:18,
+    fontWeight: '600',
+    color: '#228B22',
+    marginTop:10,
+  },
+  descriptionContent:{
+    padding:30,
+  },
+  description:{
+    fontSize:18,
+    textAlign:'center',
+    marginTop:10,
+    color: '#FFFFFF',
+  },
+  button : {
+    width:'80%',
+    backgroundColor  :'#f7c744',
+    alignItems : 'center',
+    padding: 10,
+    marginTop:10,
+    marginBottom : 20,
+    borderRadius : 4,
+    justifyContent : 'center',
+    elevation : 4,
+  },
+  buttonText: {
+    color: '#000',
   }
+
+
+
+
 });
